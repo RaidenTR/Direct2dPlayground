@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Direct2dPlayground", "Direct2dPlayground\Direct2dPlayground.vcxproj", "{F6E96C22-380E-409C-9135-3E3D1F917D09}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6E96C22-380E-409C-9135-3E3D1F917D09}.Debug|x64.ActiveCfg = Debug|x64
+		{F6E96C22-380E-409C-9135-3E3D1F917D09}.Debug|x64.Build.0 = Debug|x64
+		{F6E96C22-380E-409C-9135-3E3D1F917D09}.Debug|x86.ActiveCfg = Debug|Win32
+		{F6E96C22-380E-409C-9135-3E3D1F917D09}.Debug|x86.Build.0 = Debug|Win32
+		{F6E96C22-380E-409C-9135-3E3D1F917D09}.Release|x64.ActiveCfg = Release|x64
+		{F6E96C22-380E-409C-9135-3E3D1F917D09}.Release|x64.Build.0 = Release|x64
+		{F6E96C22-380E-409C-9135-3E3D1F917D09}.Release|x86.ActiveCfg = Release|Win32
+		{F6E96C22-380E-409C-9135-3E3D1F917D09}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7AB26D1-FC68-4DAD-9D9F-D6B94D5E96DE}
+	EndGlobalSection
+EndGlobal
