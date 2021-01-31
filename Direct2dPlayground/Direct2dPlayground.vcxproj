@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ComUser.h" />
+    <ClInclude Include="WICImageLoader.h" />
     <ClInclude Include="Direct2dPlayground.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -146,6 +148,8 @@
     <ClInclude Include="ThrowIfFailed.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ComUser.cpp" />
+    <ClCompile Include="WICImageLoader.cpp" />
     <ClCompile Include="Direct2dPlayground.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +158,9 @@
   <ItemGroup>
     <Image Include="Direct2dPlayground.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.gitignore" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

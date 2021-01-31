@@ -1,2 +1,5 @@
 ﻿  Direct2dPlayground.cpp
-  Direct2dPlayground.vcxproj -> C:\Users\borys\source\repos\Direct2dPlayground\Debug\Direct2dPlayground.exe
+E:\Source\Direct2dPlayground\Direct2dPlayground\Direct2dPlayground.cpp(168,146): warning C4244: 'argument': conversion from 'FLOAT' to 'uint32_t', possible loss of data
+E:\Source\Direct2dPlayground\Direct2dPlayground\Direct2dPlayground.cpp(168,134): warning C4244: 'argument': conversion from 'FLOAT' to 'uint32_t', possible loss of data
+E:\Source\Direct2dPlayground\Direct2dPlayground\Direct2dPlayground.cpp(208,25): warning C4101: 'ps': unreferenced local variable
+  Direct2dPlayground.vcxproj -> E:\Source\Direct2dPlayground\Debug\Direct2dPlayground.exe

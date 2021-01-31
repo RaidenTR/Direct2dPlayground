@@ -6,7 +6,7 @@
 #include <d2d1_1.h>
 #include <wrl.h>
 #include <d3d11.h>
-
+#include "WICImageLoader.h"
 
 
 #pragma comment (lib,"d2d1")
@@ -22,12 +22,17 @@ HWND hwnd;
 
 Microsoft::WRL::ComPtr<ID2D1Device> d2d1Device;
 Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2d1DeviceContext;
-Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device;
 
-Microsoft::WRL::ComPtr<ID2D1Factory> d2d1Factory;
+Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device;
+Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d11DeviceContext;
+
+Microsoft::WRL::ComPtr<ID2D1Factory1> d2d1Factory;
 Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> renderTarget;
 Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> lightSlateGrayBrush;
 ID2D1SolidColorBrush* m_pCornflowerBlueBrush;
+
+Direct2dHelpers::WICImageLoader imageLoader;
+Microsoft::WRL::ComPtr<ID2D1Bitmap> anime;
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -126,7 +131,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, d2d1Factory.GetAddressOf());
    DX::ThrowIfFailed(hr);
 
-   hr = d2d1Factory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(), D2D1::HwndRenderTargetProperties(hwnd), renderTarget.GetAddressOf());
+   RECT rc;
+   GetClientRect(hwnd, &rc);
+
+   hr = d2d1Factory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(), D2D1::HwndRenderTargetProperties(hwnd, D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top)), 
+       renderTarget.GetAddressOf());
    DX::ThrowIfFailed(hr);
 
    D3D_FEATURE_LEVEL featureLevels[] =
@@ -140,8 +149,23 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        D3D_FEATURE_LEVEL_9_1
    };
 
-   hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, D3D11_CREATE_DEVICE_BGRA_SUPPORT, featureLevels, )
+   hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, D3D11_CREATE_DEVICE_BGRA_SUPPORT, featureLevels, ARRAYSIZE(featureLevels), D3D11_SDK_VERSION, d3d11Device.GetAddressOf(), nullptr, d3d11DeviceContext.GetAddressOf());
+   DX::ThrowIfFailed(hr);
 
+   Microsoft::WRL::ComPtr<IDXGIDevice> dxgiDevice;
+   
+   hr = d3d11Device->QueryInterface(dxgiDevice.GetAddressOf());
+   DX::ThrowIfFailed(hr);
+   
+   hr = d2d1Factory->CreateDevice(dxgiDevice.Get(), d2d1Device.GetAddressOf());
+   DX::ThrowIfFailed(hr);
+
+   hr = d2d1Device->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, d2d1DeviceContext.GetAddressOf());
+   DX::ThrowIfFailed(hr);
+
+
+   auto size = renderTarget->GetSize();
+   anime = imageLoader.LoadBitmapFromFile(renderTarget.Get(), L"E:\\Source\\Direct2dPlayground\\pictures\\animeOpacityMap3.png", size.width, size.height);
    ShowWindow(hwnd, nCmdShow);
    UpdateWindow(hwnd);
 
@@ -182,9 +206,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
+            renderTarget->BeginDraw();
+            auto size = renderTarget->GetSize();
+            auto bitmapSize = anime->GetSize();
+            renderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Crimson));
+            renderTarget->DrawBitmap(anime.Get(), D2D1::RectF(0, 0, size.width, size.height), 1.f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0,0,bitmapSize.width, bitmapSize.height));
+            renderTarget->EndDraw();
+
+            //HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: Add any drawing code that uses hdc here...
-            EndPaint(hWnd, &ps);
+            //EndPaint(hWnd, &ps);
         }
         break;
     case WM_DESTROY:
